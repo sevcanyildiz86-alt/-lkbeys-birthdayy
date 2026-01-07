@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday ❤️</title>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+background:#fff;
+font-family:'Arial',sans-serif;
+}
+
+/* BALLOONS */
+.balloon{
+position:absolute;
+bottom:-150px;
+border-radius:50%;
+animation:balloonFly linear forwards;
+}
+@keyframes balloonFly{
+to{transform:translateY(-130vh);}
+}
+
+/* CONFETTI */
+.confetti{
+position:absolute;
+width:14px;
+height:14px;
+animation:confettiFall 4s linear forwards;
+}
+@keyframes confettiFall{
+to{transform:translateY(120vh) rotate(360deg);}
+}
+
+/* CENTER */
+#main{
+display:none;
+text-align:center;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+/* TEXT */
+.rainbow span{
+font-size:44px;
+font-weight:bold;
+}
+
+/* CANDLE */
+.candle{
+width:70px;
+height:220px;
+background:#fff;
+border:3px solid #ddd;
+border-radius:12px;
+margin:30px auto;
+position:relative;
+}
+.flame{
+width:36px;
+height:50px;
+background:orange;
+border-radius:50%;
+position:absolute;
+top:-45px;
+left:17px;
+animation:flicker .25s infinite;
+}
+@keyframes flicker{
+from{transform:scale(1);}
+to{transform:scale(1.15);}
+}
+
+#count{
+font-size:34px;
+margin-top:10px;
+}
+.blow{
+font-size:14px;
+color:#666;
+}
+
+/* HEARTS */
+.heart{
+position:absolute;
+font-size:60px;
+animation:heartRise 4s linear forwards;
+}
+@keyframes heartRise{
+to{transform:translateY(-140vh);opacity:0;}
+}
+
+/* MUSIC BUTTON */
+#musicBtn{
+position:fixed;
+bottom:25px;
+right:25px;
+padding:14px 22px;
+border:none;
+border-radius:40px;
+background:pink;
+font-size:15px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button id="musicBtn">🎶 Bizim şarkımız</button>
+<audio id="music">
+<source src="until-i-found-you.mp3" type="audio/mpeg">
+</audio>
+
+<div id="main">
+<div class="rainbow" id="text"></div>
+
+<div class="candle">
+<div class="flame" id="flame"></div>
+</div>
+
+<div id="count">10</div>
+<div class="blow">mumları üfle</div>
+</div>
+
+<script>
+// MUSIC (iPhone uyumlu)
+musicBtn.onclick=()=>{
+music.play();
+musicBtn.style.display="none";
+};
+
+// BALLOONS
+for(let i=0;i<25;i++){
+let b=document.createElement("div");
+b.className="balloon";
+let size=50+Math.random()*50;
+b.style.width=size+"px";
+b.style.height=size*1.2+"px";
+b.style.left=Math.random()*100+"vw";
+b.style.background=`hsl(${Math.random()*360},80%,65%)`;
+b.style.animationDuration=4+Math.random()*4+"s";
+document.body.appendChild(b);
+}
+
+// CONFETTI
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+document.body.appendChild(c);
+}
+
+// CLEAN SCREEN
+setTimeout(()=>{
+document.querySelectorAll(".balloon,.confetti").forEach(e=>e.remove());
+main.style.display="block";
+},4000);
+
+// RAINBOW TEXT
+const msg="Happy 25th birthday love of my life";
+const colors=["red","orange","yellow","green","blue","purple","pink"];
+msg.split("").forEach((c,i)=>{
+let s=document.createElement("span");
+s.textContent=c;
+s.style.color=colors[i%colors.length];
+text.appendChild(s);
+});
+
+// COUNTDOWN 10 → 0
+let t=10;
+const timer=setInterval(()=>{
+count.textContent=t;
+t--;
+if(t<0){
+clearInterval(timer);
+flame.style.display="none";
+hearts();
+}
+},1000);
+
+// BIG HEARTS
+function hearts(){
+for(let i=0;i<35;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.textContent="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-80px";
+h.style.fontSize=50+Math.random()*40+"px";
+document.body.appendChild(h);
+}
+}
+</script>
+
+</body>
+</html>
